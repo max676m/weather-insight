@@ -1,0 +1,308 @@
+/* ───────────────────────────── */
+/*  Weather Insight — Core CSS  */
+/* ───────────────────────────── */
+
+/* === Reset & Base === */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  /* Palette */
+  --bg-primary: #0b0f1a;
+  --bg-surface: rgba(255, 255, 255, 0.04);
+  --bg-glass: rgba(255, 255, 255, 0.06);
+  --border-glass: rgba(255, 255, 255, 0.1);
+  --text-primary: #eaf0ff;
+  --text-secondary: #8e99b8;
+  --accent: #6c8cff;
+  --accent-glow: rgba(108, 140, 255, 0.35);
+  --positive: #34d399;
+  --negative: #fb923c;
+  --error: #f87171;
+
+  /* Sizing */
+  --max-width: 900px;
+  --radius: 18px;
+  --radius-sm: 12px;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* === Animated background blobs === */
+.app {
+  position: relative;
+  overflow: hidden;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem 1.25rem 3rem;
+}
+
+.bg-blob {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(120px);
+  opacity: 0.35;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.bg-blob--1 {
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, #6c8cff 0%, transparent 70%);
+  top: -200px;
+  left: -100px;
+  animation: blobDrift1 18s ease-in-out infinite alternate;
+}
+
+.bg-blob--2 {
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, #a855f7 0%, transparent 70%);
+  bottom: -150px;
+  right: -100px;
+  animation: blobDrift2 22s ease-in-out infinite alternate;
+}
+
+.bg-blob--3 {
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, #34d399 0%, transparent 70%);
+  top: 40%;
+  left: 50%;
+  animation: blobDrift3 20s ease-in-out infinite alternate;
+}
+
+@keyframes blobDrift1 {
+  to { transform: translate(80px, 60px) scale(1.1); }
+}
+@keyframes blobDrift2 {
+  to { transform: translate(-60px, -80px) scale(1.15); }
+}
+@keyframes blobDrift3 {
+  to { transform: translate(-100px, 40px) scale(0.9); }
+}
+
+/* === Header === */
+.header {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.header__title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  background: linear-gradient(135deg, #eaf0ff 0%, #6c8cff 50%, #a855f7 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.header__icon {
+  -webkit-text-fill-color: initial;
+}
+
+.header__subtitle {
+  margin-top: 0.5rem;
+  color: var(--text-secondary);
+  font-size: 1.05rem;
+  font-weight: 400;
+}
+
+/* === Search Bar === */
+.search {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: var(--max-width);
+  margin-bottom: 2.5rem;
+}
+
+.search__bar {
+  display: flex;
+  gap: 0;
+  background: var(--bg-glass);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius);
+  overflow: hidden;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.search__bar:focus-within {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+.search__input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  padding: 1rem 1.5rem;
+  font-size: 1rem;
+  color: var(--text-primary);
+  font-family: inherit;
+}
+
+.search__input::placeholder {
+  color: var(--text-secondary);
+}
+
+.search__button {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 1rem 1.75rem;
+  background: linear-gradient(135deg, #6c8cff, #a855f7);
+  border: none;
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.15s;
+  white-space: nowrap;
+}
+
+.search__button:hover:not(:disabled) {
+  opacity: 0.9;
+  transform: scale(1.02);
+}
+
+.search__button:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.search__button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* Spinner */
+.spinner {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  border: 2.5px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* === Results === */
+.results {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: var(--max-width);
+  flex: 1;
+}
+
+.results__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  animation: fadeUp 0.5s ease-out;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* === Error Card === */
+.error-card {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 1.5rem;
+  background: rgba(248, 113, 113, 0.1);
+  border: 1px solid rgba(248, 113, 113, 0.25);
+  border-radius: var(--radius-sm);
+  color: var(--error);
+  animation: fadeUp 0.4s ease-out;
+}
+
+.error-card__icon {
+  font-size: 1.25rem;
+}
+
+/* === Empty State === */
+.empty-state {
+  text-align: center;
+  padding: 4rem 1rem;
+  color: var(--text-secondary);
+  animation: fadeUp 0.5s ease-out;
+}
+
+.empty-state__icon {
+  display: block;
+  font-size: 3.5rem;
+  margin-bottom: 1rem;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-10px); }
+}
+
+/* === Footer === */
+.footer {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  margin-top: 3rem;
+  padding: 1.5rem 0;
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+  opacity: 0.6;
+}
+
+/* === Responsive === */
+@media (max-width: 700px) {
+  .header__title {
+    font-size: 1.75rem;
+  }
+
+  .results__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .search__button {
+    padding: 1rem 1.25rem;
+  }
+}

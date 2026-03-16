@@ -1,0 +1,77 @@
+/* ───────────────────────────── */
+/*       FactsList styles       */
+/* ───────────────────────────── */
+
+.facts-list {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  padding: 2rem;
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.facts-list:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(168, 85, 247, 0.12);
+}
+
+.facts-list__title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  letter-spacing: -0.01em;
+}
+
+.facts-list__icon {
+  margin-right: 0.35rem;
+}
+
+.facts-list__items {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.facts-list__item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.85rem;
+  padding: 1rem 1.25rem;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  animation: slideIn 0.45s ease-out both;
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(16px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+.facts-list__item--positive {
+  background: rgba(52, 211, 153, 0.08);
+  border-color: rgba(52, 211, 153, 0.15);
+}
+
+.facts-list__item--negative {
+  background: rgba(251, 146, 60, 0.08);
+  border-color: rgba(251, 146, 60, 0.15);
+}
+
+.facts-list__badge {
+  flex-shrink: 0;
+  font-size: 1.15rem;
+  margin-top: 0.1rem;
+}
+
+.facts-list__item p {
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: var(--text-primary);
+}
+
+.facts-list__item--negative p {
+  color: var(--negative);
+}

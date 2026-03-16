@@ -1,50 +1,68 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+# Weather Insight Constitution
 
-## Core Principles
+## Core Architecture Principles
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+### I. Clear Service Separation
+The system follows a three-service architecture where each component has a single, isolated responsibility.
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+* **Frontend (React):** Responsible only for UI rendering and user interaction.
+* **Backend API (Node.js with Express):** Acts as the API gateway; orchestrates external API calls and internal service communication.
+* **AI Service (Python FastAPI):** Responsible only for AI-related logic, such as generating location facts.
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+**Rule:** The Frontend must never directly call external APIs or the AI service. All integrations must pass through the Node.js backend.
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+---
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+### II. API Gateway & Design
+The Backend API acts as the single entry point for all client requests. It is responsible for combining weather data and AI facts into a unified JSON response.
 
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
+* **Communication:** All service communication occurs over HTTP using JSON.
+* **Public Endpoint:** `GET /api/location-info` (Exposed to Frontend).
+* **Internal Endpoint:** `POST /generate-facts` (AI Microservice).
 
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
+---
 
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
+### III. AI Fact Generation Logic
+The AI service must generate exactly **three** facts about the searched location based on the following requirements:
 
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+1.  **Positive Aspects:** Two facts must highlight strengths or attractions.
+2.  **Challenging Aspects:** One fact must highlight a negative or challenging element.
+3.  **Data Grounding:** Facts must be short, relevant, and grounded in real data sources before processing.
 
-## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
+---
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
+### IV. Security & Secret Management
+* **Key Protection:** External API keys must **never** be exposed to the frontend.
+* **Server-Side Execution:** All external API calls must occur within backend services.
+* **Environment Variables:** All secrets and credentials must be stored in environment variables.
 
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+---
+
+### V. Repository Structure
+The repository must maintain the following hierarchy to support independent service execution:
+
+* `frontend/` - React application.
+* `backend/` - Node.js API gateway.
+* `ai-service/` - Python FastAPI service.
+* `.specify/` - Spec-Kit configuration.
+* `specs/` - Generated specifications.
+* `tasks/` - Implementation tasks.
+
+---
+
+### VI. Development Workflow (Spec-Kit)
+All development must follow the Spec-Kit lifecycle:
+1.  **Define:** Maintain this Project Constitution.
+2.  **Specify:** Generate features via `/speckit.specify`.
+3.  **Clarify:** Refine requirements via `/speckit.clarify`.
+4.  **Plan:** Create architecture plans via `/speckit.plan`.
+5.  **Task:** Generate implementation tasks via `/speckit.tasks`.
+
+---
+
+### VII. Governance & Versioning
+This constitution defines the architectural laws of the project. Any changes to the tech stack or architecture must be documented and approved.
+
+* **Version:** 1.0.0
+* **Ratified:** 2026-03-16
+* **Status:** Active
