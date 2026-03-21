@@ -7,10 +7,10 @@ from pydantic import BaseModel
 
 load_dotenv()
 
-from google import genai
+from anthropic import Anthropic
 
-GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
-client = genai.Client(api_key=GEMINI_API_KEY) if GEMINI_API_KEY else None
+ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY")
+client = Anthropic(api_key=ANTHROPIC_API_KEY) if ANTHROPIC_API_KEY else None
 
 app = FastAPI(title="Weather Insight AI Service", version="1.0.0")
 app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
@@ -31,7 +31,7 @@ async def generate_facts(req: FactRequest):
         raise HTTPException(status_code=400, detail="Location is required.")
 
     if not client:
-        raise HTTPException(status_code=503, detail="GEMINI_API_KEY not configured.")
+        raise HTTPException(status_code=503, detail="ANTHROPIC_API_KEY not configured.")
 
     prompt = (
         f"Generate exactly 3 short, informative facts about {location}.\n"
@@ -46,11 +46,14 @@ async def generate_facts(req: FactRequest):
     max_retries = 3
     for attempt in range(max_retries):
         try:
-            response = client.models.generate_content(
-                model="gemini-2.0-flash",
-                contents=prompt,
+            response = client.messages.create(
+                model="claude-3-5-sonnet-20241022",
+                max_tokens=200,
+                messages=[
+                    {"role": "user", "content": prompt}
+                ]
             )
-            text = response.text.strip()
+            text = response.content[0].text.strip()
 
             # Strip markdown code fences if present
             if text.startswith("```"):

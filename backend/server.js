@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const fetch = require('node-fetch');
+const authMiddleware = require('./middleware/authMiddleware');
 
 const app = express();
 app.use(cors());
@@ -13,8 +14,9 @@ const AI_SERVICE_URL = process.env.AI_SERVICE_URL || 'http://localhost:8000';
 
 /* ────────────────────────────────────────────
    GET /api/location-info?location=Paris
+   Protected — requires valid Firebase ID token
    ──────────────────────────────────────────── */
-app.get('/api/location-info', async (req, res) => {
+app.get('/api/location-info', authMiddleware, async (req, res) => {
   const { location } = req.query;
 
   if (!location || !location.trim()) {
