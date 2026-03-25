@@ -87,9 +87,13 @@ app.get('/api/location-info', authMiddleware, async (req, res) => {
 /* Health-check */
 app.get('/health', (_req, res) => res.json({ status: 'ok' }));
 
-app.listen(PORT, () => {
-  console.log(`✅ Backend API running → http://localhost:${PORT}`);
-  if (!WEATHER_API_KEY) {
-    console.warn('⚠️  WEATHER_API_KEY not set — weather calls will fail.');
-  }
-});
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`✅ Backend API running → http://localhost:${PORT}`);
+    if (!WEATHER_API_KEY) {
+      console.warn('⚠️  WEATHER_API_KEY not set — weather calls will fail.');
+    }
+  });
+}
+
+module.exports = app;
