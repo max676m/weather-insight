@@ -1,0 +1,83 @@
+/* ═══════════════════════════════════════════ */
+/*  Experiments Page                          */
+/* ═══════════════════════════════════════════ */
+
+.experiments-hero {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  max-width: 640px;
+  margin-bottom: 2rem;
+  animation: fadeUp 0.5s ease-out;
+}
+
+.experiments-hero__badge {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #a855f7;
+  background: rgba(168, 85, 247, 0.1);
+  border: 1px solid rgba(168, 85, 247, 0.25);
+  border-radius: 999px;
+  padding: 0.3rem 0.85rem;
+  margin-bottom: 0.85rem;
+}
+
+.experiments-hero__title {
+  font-size: 2.2rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  background: linear-gradient(135deg, #eaf0ff 0%, #6c8cff 50%, #a855f7 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 0.6rem;
+}
+
+.experiments-hero__desc {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+/* ── Canvas container ── */
+.experiments-canvas-section {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 960px;
+  margin-bottom: 2rem;
+  animation: fadeUp 0.6s ease-out 0.1s both;
+}
+
+.umbrella-reflow-wrapper {
+  position: relative;
+  width: 100%;
+  height: 600px;
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: #05080f;
+  border: 1px solid var(--border-glass);
+  box-shadow:
+    0 0 80px rgba(0, 255, 65, 0.06),
+    0 8px 32px rgba(0, 0, 0, 0.5);
+}
+
+.umbrella-reflow-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* ── Responsive ── */
+@media (max-width: 700px) {
+  .experiments-hero__title {
+    font-size: 1.6rem;
+  }
+
+  .umbrella-reflow-wrapper {
+    height: 420px;
+  }
+}
