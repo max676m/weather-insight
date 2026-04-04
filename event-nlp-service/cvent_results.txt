@@ -1,0 +1,21 @@
+Testing OData Filters...
+--- Filter: created ge 2026-07-01T00:00:00Z ---
+Status: 400
+Error: None
+
+--- Filter: eventStartDate ge 2026-07-01T00:00:00Z ---
+Status: 400
+Error: None
+
+--- Filter: eventLaunchDate ge 2026-07-01 ---
+Status: 400
+Error: None
+
+--- Filter: createdAfter=2026-07-01 ---
+Status: 400
+Error: None
+
+--- Filter: eventStart ge 2026-07-01T00:00:00Z ---
+Status: 400
+Error: None
+

@@ -23,6 +23,13 @@ export default function Header() {
         >
           🧪 Experiments
         </button>
+        <button
+          id="nav-events-ai"
+          className={`app-header__nav-link${location.pathname === '/events-ai-assistant' ? ' app-header__nav-link--active' : ''}`}
+          onClick={() => navigate('/events-ai-assistant')}
+        >
+          ✨ Events AI Assistant
+        </button>
       </nav>
 
       <button

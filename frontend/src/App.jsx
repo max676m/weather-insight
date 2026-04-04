@@ -5,6 +5,7 @@ import LoginPage from './pages/LoginPage';
 import HomePage from './pages/HomePage';
 import ProfilePage from './pages/ProfilePage';
 import ExperimentsPage from './pages/ExperimentsPage';
+import EventsAiAssistantPage from './pages/EventsAiAssistantPage';
 import './App.css';
 
 function App() {
@@ -34,6 +35,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <ExperimentsPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/events-ai-assistant"
+            element={
+              <ProtectedRoute>
+                <EventsAiAssistantPage />
               </ProtectedRoute>
             }
           />
