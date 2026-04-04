@@ -1,9 +1,10 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 
 export default function Header() {
   const { currentUser } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const initials = currentUser?.email?.charAt(0).toUpperCase() || '?';
 
@@ -13,6 +14,16 @@ export default function Header() {
         <span className="app-header__icon">🌤️</span>
         <span className="app-header__title">Weather Insight</span>
       </div>
+
+      <nav className="app-header__nav">
+        <button
+          id="nav-experiments"
+          className={`app-header__nav-link${location.pathname === '/experiments' ? ' app-header__nav-link--active' : ''}`}
+          onClick={() => navigate('/experiments')}
+        >
+          🧪 Experiments
+        </button>
+      </nav>
 
       <button
         id="user-avatar-btn"
